@@ -9,7 +9,7 @@ This document compares **publicly documented** behavior, not measured performanc
 | --- | --- | --- | --- |
 | Muse | MIDI input/output streaming between participants, DAW integration, remote audio, recording, talkback; vendor warns Internet latency may prevent synchronized live jams | MIDI 2.0 UMP end-to-end, MIDI-CI, per-note expressivity, local MIDI synthesis strategy | Strongest comparison for hybrid MIDI + audio; do not claim hybrid is unique |
 | Play4Me | Browser-based workstation, synthesized instruments, live audio streams, MIDI/audio recording, real-time collaboration | Wire format for remote notes, UMP, MIDI-CI, detailed per-participant monitor controls | Competes on the combined creative workflow, not necessarily system integration |
-| Wire Chord | Shared browser jam rooms; MIDI notes sent to room and synthesized at receiving browsers; local instrument monitored on hardware/DAW | MIDI 2.0 UMP, robust audio/voice transport details, per-source mixer, timing guarantees | Direct precedent for MIDI-event transport + local synthesis |
+| Wire Chord | Shared browser jam rooms; MIDI notes sent to room and synthesized at receiving browsers; local instrument monitored on hardware/DAW; site advertises voice/microphone streams and hybrid rooms | MIDI 2.0 UMP, detailed audio/voice transport implementation, per-source mixer, timing guarantees | Direct precedent for MIDI-event transport + local synthesis |
 | SonoBus | Network audio collaboration and individual monitoring; open source | MIDI-event-first distributed band semantics | UI/audio reference, not a complete MIDI application |
 | Jamulus | Real-time collaborative audio with a mixer; open source | Native end-to-end MIDI event collaboration | Audio architecture reference |
 
@@ -17,7 +17,7 @@ This document compares **publicly documented** behavior, not measured performanc
 - Muse FAQ: https://www.musesessions.co/faq
 - Muse plans: https://www.musesessions.co/plans
 - Play4Me: https://play4.me/
-- Wire Chord: https://wirechord.com/ and https://wirechord.com/faq
+- Wire Chord: https://wirechord.com/ , https://wirechord.com/faq and https://wirechord.com/privacy
 - SonoBus: https://github.com/sonosaurus/sonobus
 - Jamulus: https://github.com/jamulussoftware/jamulus
 
