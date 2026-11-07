@@ -1,5 +1,8 @@
 # Architecture — initial direction
 
+## Platform and interoperability
+The initial TeleMIDI Band application is **native to AROS**. The first end-to-end proof uses **two AROS peers**. Interoperability through standards remains a product goal, but building non-AROS TeleMIDI Band clients is not an initial dependency. See [integration contract](INTEGRATION_CONTRACT.md), [session requirements](SESSION_PROTOCOL.md), and [timing plan](TIMING_AND_LATENCY.md).
+
 ## Core principle
 TeleMIDI Band is an **application-layer consumer** of existing AROS services. MIDI transport, CAMD 43, MIDIHub routing, MIDI-CI, discovery, and synthesis remain owned by their respective infrastructure components.
 
