@@ -5,9 +5,12 @@
 - **D-002:** Hybrid design: MIDI for initial instruments, audio for vocals, with optional audio-only and dual-stream instruments.
 - **D-003:** Every member receives the others and controls an individual monitor mix.
 - **D-004:** Local monitoring must not depend on a network round trip.
-- **D-005:** AROS first, cross-platform interoperability as a design constraint.
-- **D-006:** First validation is a two-peer hybrid LAN demo, not an Internet-scale product.
+- **D-005:** Initial client is native AROS; standards-based protocol interoperability is a design constraint, but building Linux/Windows/macOS clients is not an initial deliverable.
+- **D-006:** First validation is a **two-AROS-peer** hybrid LAN demo, not an Internet-scale product.
 - **D-007:** No duplication of native CAMD/MIDIHub/Network MIDI/mDNS infrastructure.
+- **D-008:** Hybrid MIDI/audio is not claimed to be unique; competitive differentiation through MIDI 2.0 fidelity, native integration and musician-centered workflow must be validated with evidence.
+
+See [competitive analysis](COMPETITIVE_ANALYSIS.md), [integration contract](INTEGRATION_CONTRACT.md), [session protocol](SESSION_PROTOCOL.md), [timing plan](TIMING_AND_LATENCY.md), and [validation plan](VALIDATION_PLAN.md).
 
 ## Pending decisions
 - **Q-001:** Does AHI provide adequate full-duplex audio capture/playback and latency on target hardware?
