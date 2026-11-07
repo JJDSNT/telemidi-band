@@ -29,3 +29,6 @@ AOO clock model and transport, codec frame size, buffer adaptation, tempo/beat-a
 
 ## Acceptance evidence
 Reproducible harness, build information, target architecture, timestamp logs, objective metrics and short listening-test protocol. Define acceptable musical interaction thresholds only after measurement.
+
+## Instrument assets and real-time isolation
+Soundbank discovery, hashing, authorization, download, verification and synth initialization must happen outside the real-time MIDI/audio callback path. Measure instrument-switch readiness separately from performance latency. Preserve note-off cleanup and avoid discontinuities on renderer changes.
