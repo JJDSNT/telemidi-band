@@ -34,3 +34,14 @@
 
 ## G0 deliverable
 A source-linked capability matrix, minimal integration harnesses, confirmed blockers and ownership decisions. Only after G0 should adapters or concrete APIs be frozen.
+
+## Instrument fidelity and soundbank responsibility
+
+| Concern | Intended owner | Verify in G0 |
+| --- | --- | --- |
+| Soundbank catalog, cache, load/unload and preset selection | MIDIHub synth service or existing native AROS synth facilities, **if available** | Actual API, formats (SF2/SF3 etc.), lifecycle, version, resource limits |
+| Session instrument manifest and fidelity status | TeleMIDI Band | Source identity, hash, synth compatibility, permission, UI reporting |
+| Authorized asset exchange and cache orchestration | TeleMIDI Band coordination + reusable OS services | Content hash, transport, consent, integrity, licensing, failure recovery |
+| Source hardware/proprietary synth fidelity | Original musician's audio stream | Audio capture, source/monitor routing, hybrid operation |
+
+A MIDI-CI profile/property exchange is **not** a universal soundbank transfer protocol. Do not claim MIDI-CI can deliver arbitrary soundbanks or guarantee identical timbres. MIDIHub synthesizer and asset-management APIs are proposed boundaries until source-verified. Avoid loading assets in real-time audio callbacks.
