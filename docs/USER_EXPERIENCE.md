@@ -27,3 +27,6 @@ An AROS musician can create or join a band room, connect native MIDI instruments
 
 ## MVP acceptance
 Two **AROS** computers, each with a MIDI controller and microphone: both hear the other's instrument and voice; both have independent remote-source controls; local monitoring does not traverse the network. Protocol interoperability remains a future test objective, not a requirement to build non-AROS clients.
+
+## Instrument fidelity UX
+When a musician joins or changes instruments, show the remote render status per listener: matching bank/renderer, compatible substitute, source audio, or unavailable. Offer opt-in download of legally shareable banks with file size and provenance, and permit choosing a local substitute. Never silently claim the sound is identical. Instrument asset negotiation must not block room admission or local monitoring.
