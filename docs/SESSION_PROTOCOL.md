@@ -28,3 +28,29 @@ Create -> discover/invite -> authenticate/admit -> announce sources and capabili
 
 ## Deferred wire choices
 Serialization, room signaling transport, peer authentication, clock synchronization algorithm, codec configuration, and version negotiation must be decided from G0/G1 measurements. Avoid inventing a proprietary network MIDI protocol.
+
+## Instrument fidelity and asset negotiation
+
+A MIDI performance does **not** carry the sound of its source synthesizer. Session setup therefore advertises **instrument render intent** separately from MIDI event transport.
+
+### Proposed instrument manifest (conceptual; not a frozen wire schema)
+- Participant/source identity and instrument role
+- MIDI protocol/capabilities (MIDI1, UMP, MPE, per-note expression as supported)
+- Rendering mode: local soundbank, local plugin/synth, external hardware, audio-only, or hybrid
+- Synth engine identifier/version and compatible preset format
+- Soundbank identifier, version, cryptographic content hash, size, format, and preset/program/bank selection
+- Optional dependency/effects metadata needed for a closer timbral match
+- Availability, provenance, sharing permissions and authorized retrieval method
+- Fallback policy and fidelity status reported to each listener
+
+### Receiver negotiation
+1. Receive a source manifest during admission or instrument changes.
+2. Check local synth and soundbank cache by **content hash**, not just filename.
+3. If compatible assets exist, bind them to the remote MIDI stream.
+4. Otherwise request explicit authorized transfer or retrieval; validate hash, limits, format and provenance before installing in a sandboxed cache.
+5. If sharing is prohibited or the renderer is incompatible, offer clearly labeled compatible preset, or **audio from the source instrument**.
+6. Acknowledge receiver rendering state: **exact asset / compatible approximation / audio-original / unavailable**. 'Exact asset' does not imply bit-identical audio if synth engine, effects or settings differ.
+7. On instrument/preset change, renegotiate without losing note-off and source ownership.
+
+### Safety and ownership
+No automatic unrestricted soundbank redistribution; transfers require owner permission and compatible licensing. Authenticate peers, constrain file size, validate content and use a non-executable cache. Asset downloads are control/data operations, **never** on the low-latency MIDI/audio callback path. Local synthesis and instrument asset storage remain native service responsibilities where available; TeleMIDI Band coordinates manifests, consent and user-visible fidelity.
