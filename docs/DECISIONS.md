@@ -12,6 +12,9 @@
 
 See [competitive analysis](COMPETITIVE_ANALYSIS.md), [integration contract](INTEGRATION_CONTRACT.md), [session protocol](SESSION_PROTOCOL.md), [timing plan](TIMING_AND_LATENCY.md), and [validation plan](VALIDATION_PLAN.md).
 
+
+- **D-009:** Instrument sound fidelity is an explicit session property: negotiate a soundbank/synth manifest and cache reuse, request authorized assets only when necessary, and use source audio or labeled approximation for incompatible/proprietary/hardware instruments. MIDI-CI alone is not a soundbank distribution mechanism.
+
 ## Pending decisions
 - **Q-001:** Does AHI provide adequate full-duplex audio capture/playback and latency on target hardware?
 - **Q-002:** Is AOO portable to AROS with acceptable dependency and maintenance cost?
