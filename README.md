@@ -4,7 +4,7 @@
 
 TeleMIDI Band is an experimental, open-source-oriented application concept for musicians to rehearse, perform and record together across computers and networks. Instruments initially exchange **MIDI events** while vocals (and optionally acoustic instruments) use **audio streams**. Every participant hears an individually configurable mix of the other musicians, while monitoring their own instrument locally.
 
-**Primary platform:** AROS. **Interoperability goal:** Linux, Windows and macOS peers. The project is currently in **architecture and feasibility research**, not a working implementation.
+**Initial application platform:** native AROS. **Interoperability goal:** communicate with external peers through documented standard protocols; native clients for other operating systems are not an initial deliverable. The project is currently in **architecture and feasibility research**, not a working implementation.
 
 ## Product goals
 
@@ -49,7 +49,7 @@ Peer-to-peer, relay and centralized mixing are **options to benchmark**, not pre
 
 ## Initial demonstration
 
-Two peers, one running AROS and another running Linux:
+Two peers, both running AROS:
 1. Both connect a MIDI instrument/controller and a microphone.
 2. Each hears the other's MIDI instrument (locally synthesized) and voice.
 3. Each independently adjusts remote MIDI and voice levels.
@@ -64,6 +64,12 @@ Then expand to a four-member band: MIDI drums, MIDI bass, MIDI keyboard/guitar, 
 - [Phased roadmap and acceptance criteria](docs/ROADMAP.md)
 - [Research references and porting audit](docs/REFERENCES.md)
 - [Open questions and decision log](docs/DECISIONS.md)
+- [Competitive evidence and differentiators](docs/COMPETITIVE_ANALYSIS.md)
+- [User experience and primary journey](docs/USER_EXPERIENCE.md)
+- [Native AROS integration contract](docs/INTEGRATION_CONTRACT.md)
+- [Session protocol requirements](docs/SESSION_PROTOCOL.md)
+- [Timing and latency research plan](docs/TIMING_AND_LATENCY.md)
+- [Validation plan and test matrix](docs/VALIDATION_PLAN.md)
 
 ## Related projects
 
