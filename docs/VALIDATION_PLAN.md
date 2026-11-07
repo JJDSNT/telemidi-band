@@ -28,3 +28,10 @@ For every run record: build commit, AROS target architecture, hardware, connecte
 - **G5:** asynchronous overdub/edit/export.
 
 Do not mark a capability complete based solely on a design document or an upstream feature claim.
+
+## Instrument fidelity tests
+- **V13:** Same SF2 asset/hash on both AROS peers; resolve cached bank and correct bank/program, with documented renderer settings.
+- **V14:** Bank absent; consented authorized transfer, size/hash verification, cache reuse, cancellation and failed download.
+- **V15:** Non-redistributable bank or hardware/proprietary synth; do not copy asset, select source audio or explicit approximation.
+- **V16:** Instrument/preset changes and peer disconnect during transfer; preserve note lifecycle, free resources, no real-time callback stalls.
+- **V17:** Different synth engines/effects with same bank; report compatibility without claiming identical rendered audio.
