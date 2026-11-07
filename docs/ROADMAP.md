@@ -5,7 +5,7 @@ No stage below should be marked complete without executable evidence.
 ## G0 — Contract and capability audit (P0)
 - Inventory actual CAMD 43, MIDIHub, Network MIDI, mDNS/DNS-SD and AHI APIs available in the intended AROS build.
 - Verify MIDI 1/UMP support, endpoint identity, timestamps, synthesis, audio duplex, and event notifications.
-- Define minimum interop contract for AROS + Linux.
+- Define the verified native AROS integration contract and identify protocol-level interoperability requirements without requiring a Linux client.
 - Record API gaps upstream in their owning repositories, not as duplicate implementations here.
 **Exit:** capability matrix with code locations, test plan and named blockers.
 
@@ -16,7 +16,7 @@ No stage below should be marked complete without executable evidence.
 **Exit:** reproducible build and measured duplex voice path; document fallback if AOO is impractical.
 
 ## G2 — Two-peer hybrid LAN demo (P0)
-- AROS + Linux; one MIDI controller and microphone on each.
+- **Two AROS peers**; one MIDI controller and microphone on each.
 - Native platform MIDI transport and routing; separate low-latency voice stream.
 - Both participants hear remote MIDI and voice; adjustable independent return levels.
 - Local direct monitor and no accidental network feedback loops.
@@ -37,6 +37,13 @@ No stage below should be marked complete without executable evidence.
 - Asynchronous overdubs, separate tracks, timeline alignment and export.
 - Recovery of sessions and deterministic offline mix.
 **Exit:** remotely recorded, editable multi-part song.
+
+## Cross-cutting acceptance artifacts
+- [Native integration contract](INTEGRATION_CONTRACT.md) and source-linked G0 capability matrix.
+- [User experience](USER_EXPERIENCE.md) and [session protocol requirements](SESSION_PROTOCOL.md).
+- [Timing and latency plan](TIMING_AND_LATENCY.md) and [validation matrix](VALIDATION_PLAN.md).
+- [Competitive evidence](COMPETITIVE_ANALYSIS.md) for feature prioritization, not unsupported exclusivity claims.
+- Test interoperability with an external standards-compliant peer after native AROS viability is demonstrated; no cross-platform client implementation required for G2.
 
 ## Engineering rules
 - Prefer thin platform adapters and integration tests over replacing existing infrastructure.
