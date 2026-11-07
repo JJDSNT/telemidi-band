@@ -4,7 +4,7 @@ No stage below should be marked complete without executable evidence.
 
 ## G0 — Contract and capability audit (P0)
 - Inventory actual CAMD 43, MIDIHub, Network MIDI, mDNS/DNS-SD and AHI APIs available in the intended AROS build.
-- Verify MIDI 1/UMP support, endpoint identity, timestamps, synthesis, audio duplex, and event notifications.
+- Verify MIDI 1/UMP support, endpoint identity, timestamps, synthesis, **soundbank catalog/load/preset APIs**, audio duplex, and event notifications.
 - Define the verified native AROS integration contract and identify protocol-level interoperability requirements without requiring a Linux client.
 - Record API gaps upstream in their owning repositories, not as duplicate implementations here.
 **Exit:** capability matrix with code locations, test plan and named blockers.
@@ -18,6 +18,7 @@ No stage below should be marked complete without executable evidence.
 ## G2 — Two-peer hybrid LAN demo (P0)
 - **Two AROS peers**; one MIDI controller and microphone on each.
 - Native platform MIDI transport and routing; separate low-latency voice stream.
+- Negotiate instrument manifests and match local soundbanks by hash; explicitly report fallback and source-audio options (asset transfer may be staged after core demo).
 - Both participants hear remote MIDI and voice; adjustable independent return levels.
 - Local direct monitor and no accidental network feedback loops.
 - Telemetry: latency, jitter, drift, loss, CPU, underruns and stuck-note recovery.
@@ -26,6 +27,7 @@ No stage below should be marked complete without executable evidence.
 ## G3 — Four-person band LAN (P1)
 - Drums, bass, keys/guitar MIDI and voice; instrument profiles and independent mixes.
 - Participant join/leave, reconnection, clock handling, source attribution and multitrack recording.
+- Implement permissioned soundbank transfer/cache where justified; handle non-shareable/hardware instruments via source audio or labeled approximation.
 **Exit:** every musician hears the other three and can adjust their own monitor mix.
 
 ## G4 — Internet rehearsal (P1, feasibility-gated)
