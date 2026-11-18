@@ -16,6 +16,14 @@ These are **study candidates**, not selected dependencies or claims of AROS comp
 | AROS MIDIHub | https://github.com/JJDSNT/aros-midihub | Primary AROS MIDI integration dependency |
 | AROS | https://github.com/aros-development-team/AROS | Native CAMD, audio and networking source |
 
+## MIDI 2.0 application-level validation reference
+
+| Product | Reference | Research and validation focus |
+| --- | --- | --- |
+| MultitrackStudio | https://midi.org/multitrackstudio-brings-practical-midi-2-0-support-to-audio-and-midi-recording | Independent DAW reference for MIDI 2.0 UMP/per-note expression, MIDI-CI Profiles/Property Exchange, multitrack recording and MIDI 2.0 file interchange; confirm exact version, available features and usable connection path before testing |
+
+MultitrackStudio is a **feature benchmark and potential interoperability peer**, not an AROS dependency, open-source implementation, network-jam reference or proof of compatibility. It must not drive a separate MIDI stack in TeleMIDI Band. Native CAMD/platform MIDI services own MIDI-CI, UMP and transport; TeleMIDI Band owns recording, participant attribution and session behavior. See [validation plan](VALIDATION_PLAN.md) for proposed checks and evidence requirements.
+
 ## Investigation checklist
 - Identify exact upstream license and compatible reuse boundaries.
 - Confirm source accessibility and build requirements.
