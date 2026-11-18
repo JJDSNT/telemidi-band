@@ -16,6 +16,19 @@
 | V11 | External protocol peer | Interoperability without requiring a non-AROS TeleMIDI Band client |
 | V12 | Four-person band | Each participant hears other three with independent mix |
 
+## MultitrackStudio interoperability candidate (planned, not executed)
+
+Reference: [MIDI Association article](https://midi.org/multitrackstudio-brings-practical-midi-2-0-support-to-audio-and-midi-recording). This is a DAW feature/interchange benchmark; it is **not** a validated TeleMIDI Band network peer. Before running tests, confirm MultitrackStudio version, supported MIDI 2.0 features, available device/virtual port, operating system, and whether a real bidirectional UMP/MIDI-CI connection exists.
+
+| ID | Proposed scenario | Expected evidence / boundary |
+| --- | --- | --- |
+| VM01 | Compare MIDI 2.0 note, velocity and per-note expression round-trip against a compatible DAW endpoint | Captured UMP events and audible behavior; extend V03; flag any MIDI 1.0 downgrade |
+| VM02 | Discover instrument capabilities via MIDI-CI Profiles and Property Exchange where both endpoints support them | Request/reply traces, versions, supported resources and error handling; consume platform MIDI-CI rather than implementing it here |
+| VM03 | Export/import separately attributed MIDI tracks into a compatible MIDI 2.0 file workflow | Event identity, note expression, timing and track attribution before/after; extend V09/G5; verify file-format support in the tested version |
+| VM04 | Change programs/profiles and disconnect during recording | Preserved note lifecycle, correct recorded events and deterministic cleanup; extend V07/V16 |
+
+Record tested application version, AROS/CAMD/MIDIHub/TeleMIDI Band commits, transport, OS, virtual/physical devices, input/output captures, expected/observed results and limitations. Mark all VM checks **planned** until executed. A successful file import/export does not establish live UMP transport interoperability; a successful local DAW exchange does not establish multi-peer network synchronization, latency, jitter or audio performance. Those remain covered by V05/V08/V12 and their own measurements.
+
 ## Evidence requirements
 For every run record: build commit, AROS target architecture, hardware, connected MIDI/audio devices, network topology, transport and codec configuration, sample rate, buffer size, test duration, latency distribution, jitter, packet loss, CPU load, underruns and known limitations.
 
