@@ -40,6 +40,13 @@ No stage below should be marked complete without executable evidence.
 - Recovery of sessions and deterministic offline mix.
 **Exit:** remotely recorded, editable multi-part song.
 
+## Optional visual telepresence (non-blocking)
+- Follow [telepresence feasibility and validation backlog](TELEPRESENCE.md), TP01–TP07.
+- G0: audit AROS capture, codecs and candidate video-only WebRTC dependencies; do not assume a working port.
+- G2/G3: optional LAN visual experiment only after the MIDI/audio baseline, without changing gate exits.
+- G4: evaluate Internet video-only WebRTC, authenticated signaling, ICE/TURN and video-vs-musical-audio bandwidth contention. Musical audio transport and its NAT traversal remain independent.
+- Camera use requires participant consent; failure or disablement of video must never interrupt musical streams.
+
 ## Cross-cutting acceptance artifacts
 - [Native integration contract](INTEGRATION_CONTRACT.md) and source-linked G0 capability matrix.
 - [User experience](USER_EXPERIENCE.md) and [session protocol requirements](SESSION_PROTOCOL.md).
