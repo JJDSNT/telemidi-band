@@ -61,6 +61,7 @@ Then expand to a four-member band: MIDI drums, MIDI bass, MIDI keyboard/guitar, 
 ## Documentation
 
 - [Architecture and component boundaries](docs/ARCHITECTURE.md)
+- [Optional visual telepresence and WebRTC feasibility](docs/TELEPRESENCE.md)
 - [Phased roadmap and acceptance criteria](docs/ROADMAP.md)
 - [Research references and porting audit](docs/REFERENCES.md)
 - [Open questions and decision log](docs/DECISIONS.md)
