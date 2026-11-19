@@ -7,6 +7,7 @@ These are **study candidates**, not selected dependencies or claims of AROS comp
 | SonoBus | https://github.com/sonosaurus/sonobus | Individual monitor mixes, collaborative audio UX, latency/jitter controls |
 | AOO (Audio over OSC) | https://github.com/Spacechild1/aoo | Reusable real-time network audio, timing, buffering and transport |
 | Jamulus | https://github.com/jamulussoftware/jamulus | Centralized low-latency audio sessions and mixer tradeoffs |
+| JackTrip (open source) | https://github.com/jacktrip/jacktrip | Inspect real-time audio transport, buffering, clock/latency measurement, multichannel routing, build dependencies and potential AROS portability; compare with AOO rather than assuming a replacement |
 | Opus | https://github.com/xiph/opus | Portable audio codec candidate for voice and instruments |
 | libremidi | https://github.com/celtera/libremidi | Cross-platform MIDI application API and interoperability design |
 | rtpmidid | https://github.com/davidmoreno/rtpmidid | External RTP-MIDI interoperability peer |
@@ -43,6 +44,10 @@ These products are **feature benchmarks**, not verified reusable source code. Se
 | Wire Chord | https://wirechord.com/ | MIDI-event exchange, local synthesis, jam-room UX and hybrid audio/voice claims |
 | MIDIverse | https://midiverse.io/ | P2P MIDI collaboration, shared clock and small-group sessions; verify current availability |
 | SonoBus | https://sonobus.net/ | Individual monitor mixes, participant audio UX and latency controls |
+| JackTrip Labs | https://www.jacktrip.com/ | Audio-first remote rehearsals, virtual studios, DAW integration, monitoring and optional video; distinguish product service from open-source core and independently measure latency claims |
+| Remote Band (beta) | https://www.remote.band/ | Vendor-described direct P2P audio, adaptive jitter buffer, clock-drift correction, VST3/AU DAW connector and browser audience; investigate separation of musician audio from spectator distribution |
+
+Remote Band's public site does not specify its wire protocol or provide a source repository; do not assume it uses AOO, RTP or WebRTC, or that its code can be reused. Its published latency figures are vendor-reported, not independently validated. JackTrip's open-source repository is a source-audit candidate, but AROS compatibility and its current dependency footprint remain unverified.
 
 ## Protocols, specifications and supporting implementations
 
@@ -55,6 +60,13 @@ These products are **feature benchmarks**, not verified reusable source code. Se
 | Opus codec | https://opus-codec.org/ | Codec reference, frame sizes, delay and interoperability |
 | RTP-MIDI / AppleMIDI | https://www.rfc-editor.org/rfc/rfc6295 | Standard network MIDI transport reference |
 | MIDI Polyphonic Expression | https://midi.org/mpe-midi-polyphonic-expression | MIDI 1.0 expressivity comparison; distinguish from native MIDI 2.0 per-note controls |
+
+## JackTrip and Remote Band — follow-up comparisons (2026-11-19)
+
+- **JackTrip:** inspect the actual source revision, license and dependency tree; document audio device abstraction, buffering, jitter handling, channel count, session topology, control-plane separation and CPU/memory use. Compare an AROS/AHI adapter with the planned AOO + Opus/PCM experiment; do not treat product-marketed latency or video support as native AROS evidence.
+- **Remote Band:** treat as a competitive/UX and architecture reference only. Examine the advertised P2P low-latency path, clock drift correction, DAW track connector and browser audience as distinct product capabilities. Request or discover technical documentation before attributing any specific transport, codec, encryption or NAT mechanism.
+- **TeleMIDI-specific distinction:** MIDI 2.0 events and local synthesis remain native CAMD/MIDIHub concerns. Neither audio-first project demonstrates MIDI 2.0/UMP or MIDI-CI support for our architecture. Musical audio remains independent of optional [video-only telepresence](TELEPRESENCE.md).
+- **Validation:** compare LAN and WAN end-to-end audible latency, jitter, drift, packet loss, device buffer sizes, bandwidth, CPU, direct-vs-relay behavior and recovery. Keep reported marketing measurements separate from reproducible AROS tests.
 
 ## Research traceability
 
