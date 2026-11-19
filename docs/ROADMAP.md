@@ -52,3 +52,16 @@ No stage below should be marked complete without executable evidence.
 - Track feature maturity as planned / prototyped / validated / upstreamed.
 - Benchmark with explicit hardware, network, sample rate, codec settings and buffer sizes.
 - No hard real-time or zero-latency claims without evidence.
+
+## Research checkpoints informed by open implementations (2026-11-18)
+
+These are **investigations inside existing gates**, not new implementation commitments or a change in gate order:
+
+- **G0:** audit native CAMD/MIDIHub timestamp, UMP, MIDI-CI, identity and lifecycle contracts. Compare netpd's state sync and PianoJam's room/note ownership; document reliable configuration versus time-sensitive events separately.
+- **G1:** compare upstream AOO (not the old SonoBus fork) and Opus against AROS/AHI. Prototype audio timestamp observability and drift diagnostics before adopting a transport.
+- **G2:** run an immediate-interaction two-AROS-peer baseline, measuring remote audible MIDI latency separately from voice latency; retain original event timestamps and note-off recovery.
+- **G3:** compare per-participant mixes and multitrack attribution with SonoBus, Meshroom and ptcollab; test late join, disconnect and state resynchronization.
+- **G4:** benchmark direct, forwarding relay and mixed-audio topologies with real jitter/loss; optionally experiment with beat/bar scheduling inspired by NINJAM and the published Telemidi research, without treating proprietary TEMPO as a dependency.
+- **G5:** compare editable tracks and deterministic reconstruction against ptcollab/Meshroom; preserve the distinction between performer hearing time and reconstructed audience time.
+
+See [references](REFERENCES.md), [timing experiments](TIMING_AND_LATENCY.md), and [validation plan](VALIDATION_PLAN.md). No DAW, web app or third-party collaboration engine becomes a platform dependency merely by appearing in the research inventory.
