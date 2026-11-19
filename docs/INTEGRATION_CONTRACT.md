@@ -82,3 +82,29 @@ This is a **code/documentation audit, not a successful AROS runtime test**. Do n
 - AOO/Opus presence in reference material does **not** imply a working AROS port.
 
 **Status:** all new G0/G1 test obligations remain open. This audit changes the classification of audio capture from *possibly missing* to *present in source, duplex/performance unverified*.
+
+
+## AHI source follow-up — 2026-11-19
+
+Additional source paths in [AROS](https://github.com/aros-development-team/AROS) clarify the **first executable feasibility test**:
+
+- `workbench/devs/AHI/Examples/Low-level/HardDiskRecord/HardDiskRecord.c`: existing recording example uses `AHI_AllocAudio`, `AHIA_RecordFunc`, `AHIC_Record` and a signal-driven buffer handoff. Reuse as an API reference, **not** as proof of full-duplex or low latency.
+- `workbench/tools/AHIRecord/AHIRecord.c`: production-oriented recording client with `AHIA_RecordFunc` and `AHIC_Record`; useful for verifying capture independent of TeleMIDI.
+- `workbench/devs/AHI/Device/devcommands.c`: `CMD_READ` and playback path reject concurrent operation when `!FullDuplex` with `AHIE_HALFDUPLEX`; do not mask this error or silently substitute half-duplex for a live session.
+- `workbench/devs/AHI/Drivers/HDAudio/main.c`: implements a query case for `AHIDB_FullDuplex`; the result must be checked on actual hardware.
+- `rom/usb/classes/audio/usbaudio.class.c`: recording-mode pairing and `AHIDB_FullDuplex` handling exist; USB device-specific modes and runtime results still need measurement.
+
+### G1-A: minimum native AHI experiment (proposed, not executed)
+
+1. Select and record AHI mode, hardware/driver, full-duplex capability, sample format/rate, channel count and requested buffer size.
+2. Verify microphone capture in isolation using AHIRecord or a minimal client; record buffer callbacks and dropouts.
+3. Verify headphone playback in isolation using an AHI client.
+4. Run capture and playback **simultaneously** with bounded ring buffers and no file/network I/O in the record callback. If `AHIE_HALFDUPLEX`, record the device limitation and try another valid mode/device rather than changing the MIDI stack.
+5. Measure input-to-output loopback latency (not merely callback intervals), callback jitter, underruns, overruns, CPU and memory for sustained runs. Test startup/shutdown, device removal, stop/restart and sample-rate mismatch.
+6. Repeat on a second AROS peer before adding a voice codec; compare native target builds, including m68k only when it is an intended target for the experiment.
+
+**Pass criteria:** demonstrable simultaneous capture/playback on specified target hardware, reproducible log and latency distribution (p50/p95/p99), no sustained buffer corruption or leaked resources. Numerical acceptable limits are to be selected from observed musical use cases, not invented in advance.
+
+**Follow-up:** only after G1-A, audit upstream AOO and Opus build/link/runtime requirements, then test local codec loopback before networking. The existence of AHI APIs does not select AOO or establish their portability.
+
+**Implementation ownership:** an AHI driver bug requires a minimal AHI/USB/HDAudio reproduction and belongs upstream; TeleMIDI owns the capture/playback adapter, stream coordination and measurements. No TeleMIDI application code or AROS driver code was changed by this research.
