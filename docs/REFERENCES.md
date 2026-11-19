@@ -64,3 +64,31 @@ These products are **feature benchmarks**, not verified reusable source code. Se
 - [Validation plan](VALIDATION_PLAN.md): reproducible acceptance tests.
 
 **Evidence discipline:** links alone do not establish feature support, portability, licensing or source-code availability. Before selecting a dependency, record an upstream revision, license, specific source files, test results and target AROS architecture. Vendor marketing claims must not be reported as measured performance.
+
+## Distributed music collaboration: deeper research (2026-11-18)
+
+These are **architectural and experimental references**, not adopted dependencies or demonstrated AROS ports. Evaluate source, licenses, maturity, reproducible tests and platform seams before choosing any implementation.
+
+| Initiative | Source / documentation | Verified or documented behavior | What TeleMIDI Band should investigate | Caveat |
+| --- | --- | --- | --- | --- |
+| netpd | https://github.com/reduzent/netpd ; https://netpd.org/docs/protocol/ ; https://github.com/reduzent/netpd-server | Pure Data instruments and parameters synchronized among clients; OSC 1.1 over TCP with SLIP framing, relay server | Instrument/session state snapshots, late join, participant-origin identification, convergence after reconnect | Not evidence of low-latency MIDI transport; TCP head-of-line blocking differs from time-critical event delivery; GPL-2.0 |
+| Fast MIDI Jam | https://github.com/serifpersia/fast-midi-jam | C++ UDP MIDI client/server; external server/UDP port-forwarding or tunnel described | Inspect `client.cpp`, `server.cpp`, `midi_utils.cpp` for event framing, note lifecycle, packet validation, timing and loss behavior | **Archived 2026-02-19**; no MIDI 2.0, timing, security or reliability claim accepted without source-level tests |
+| NINJAM | https://cockos.org/ninjam/ ; https://github.com/justinfrankel/ninjam | Source-available interval-based network audio collaboration; session material can be imported for editing | Musically delayed / bar-aligned alternative to immediate interaction, interval boundaries, recordings and participant UX | Audio-centric; not a MIDI 2.0 or CAMD implementation; review component licenses |
+| AOO | https://git.iem.at/aoo/aoo ; https://github.com/Spacechild1/aoo | C/C++ audio streaming with sample-accurate timestamped messages, adjustable jitter, drift compensation, Opus/PCM, source/sink topology | Whether audio frames and MIDI events can share an explicitly mapped timeline; feasibility of thin AROS adapter and tests | Upstream calls itself alpha; **do not use** the historical SonoBus-specific `essej/aoo` fork as the new library basis |
+| SonoBus | https://github.com/sonosaurus/sonobus | Per-user monitor controls, adjustable jitter buffer, multitrack recording | Personal mixes, diagnostics and recording UX | Audio-first application, not a native MIDI 2.0 implementation |
+| Jamulus | https://github.com/jamulussoftware/jamulus | Server receives and mixes client audio, sends mix back | Compare server-side mixing, bandwidth, individual mix limitations and latency | Different topology from event-first/local-synthesis approach |
+| Meshroom | https://github.com/janiluuk/meshroom | MIDI Sync / Ableton Link bridge, up to four collaborators, latency indicators, recording/session manifests | Beat/tempo alignment, sync modes, quantization controls, per-participant tracks, recovery metadata | Early development, browser/Node/Docker/LiveKit stack; not an AROS portability candidate by default |
+| PianoJam | https://github.com/Halfaxas/PianoJam | Browser MIDI keyboards, multiplayer rooms, locally synthesized instruments, synchronized metronome | Room lifecycle, per-player instrument choice, note-off cleanup and UX | Socket.IO/browser architecture; WAV recording does not imply MIDI 2.0 event export |
+| ptcollab | https://github.com/yuxshao/ptcollab | Collaborative piano-roll sequencing and session replay | Asynchronous collaborative composition, event-history replay, edit/record distinction | Sequencer, not a network performance/UMP reference |
+| OpenStudio | https://github.com/braedonsaunders/openstudio ; https://github.com/braedonsaunders/openstudio/blob/main/docs/native-bridge-roadmap.md | Browser collaboration, synchronized backing tracks, optional Rust native bridge | Separate local device latency from network transport, performer/listener roles, relay-vs-P2P design | Full deployment requires Supabase, Cloudflare Calls/R2; performance and roadmap claims require independent measurements |
+| Telemidi / TEMPO (closed reference) | https://telemidi.com/tempo-protocol/ ; https://midi.org/telemidi-creating-music-over-the-internet-in-real-time ; https://ro.ecu.edu.au/theses/2862/ | Describes timestamped MIDI, clock skew calibration, latency-accepting musical techniques and audience reconstruction | Compare performer experience versus reconstructed audience timeline; formulate independent experiments | Patent-pending proprietary protocol; no implementation reuse or claimed 3 ms performance without independent evidence |
+
+### Cross-reference priorities
+
+1. **State and ownership:** netpd + PianoJam: separate reliable membership/instrument configuration from real-time note events.
+2. **Hybrid timebase:** AOO + Meshroom: inspect timestamps, clock domains, tempo/beat phase and audio frame correlation; do not assume clocks are interchangeable.
+3. **Musically acceptable delay:** NINJAM + Telemidi research: benchmark immediate, bounded-jitter and bar/beat-quantized modes separately.
+4. **Record and reconstruct:** ptcollab + Meshroom + SonoBus: retain original event time, receive time, source identity, local render offsets and optional audience timeline.
+5. **Network topology and ergonomics:** Jamulus + OpenStudio: compare direct, relay and mixed-audio topologies; distinguish marketed latency from measured end-to-end audible latency.
+
+**Do not infer** native MIDI 2.0/UMP or MIDI-CI support from generic MIDI, MIDI clock, Web MIDI or Ableton Link mentions. Do not vendor GPL source or proprietary protocol material without explicit license and architectural review. Preserve AROS platform ownership of CAMD/MIDIHub/transport/MIDI-CI.
