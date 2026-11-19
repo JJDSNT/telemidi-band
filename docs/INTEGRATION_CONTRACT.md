@@ -45,3 +45,40 @@ A source-linked capability matrix, minimal integration harnesses, confirmed bloc
 | Source hardware/proprietary synth fidelity | Original musician's audio stream | Audio capture, source/monitor routing, hybrid operation |
 
 A MIDI-CI profile/property exchange is **not** a universal soundbank transfer protocol. Do not claim MIDI-CI can deliver arbitrary soundbanks or guarantee identical timbres. MIDIHub synthesizer and asset-management APIs are proposed boundaries until source-verified. Avoid loading assets in real-time audio callbacks.
+
+
+## Source-backed gap investigation — 2026-11-19
+
+This is a **code/documentation audit, not a successful AROS runtime test**. Do not promote a planned API to a verified production capability. Evidence paths below are in [AROS](https://github.com/aros-development-team/AROS) and [aros-midihub](https://github.com/JJDSNT/aros-midihub); pin exact commits before G0 acceptance.
+
+| Capability | Verified evidence / current boundary | Classification | Owner and next validation |
+| --- | --- | --- | --- |
+| AHI audio capture | AROS `workbench/tools/AHIRecord/AHIRecord.c` uses `AHIA_RecordFunc`, `AHIC_Record`; `workbench/devs/AHI/Device/devcommands.c` handles `CMD_READ` | **Existing API/implementation**, not an absent platform feature | G1: run capture + playback concurrently on target device, measure buffers/latency and failures |
+| AHI duplex | `devcommands.c` explicitly checks `FullDuplex` and returns `AHIE_HALFDUPLEX` when incompatible read/write activity overlaps; `rom/usb/classes/audio/usbaudio.class.c` handles recording modes and full-duplex mode reporting | **Device/driver-dependent, unvalidated** | AHI/USB Audio if a reproduced driver defect; otherwise TeleMIDI audio adapter |
+| Native UMP and receive-time metadata from drivers | MIDIHub `docs/camd-backlog.md` **B32**: driver boundary lacks native UMP and timed receive; provisional CAMD 43 published application endpoints are not equivalent to a native driver path | **Documented interface gap**, not proven G2 blocker | CAMD; verify current upstream branch/PR and measure loss of timestamp/UMP before proposing ABI change |
+| Physical endpoint identity/presence/display | MIDIHub CAMD backlog **B29/B30/B31** describes driver identity, offline presence and display name gaps | **Documented interface gaps** | CAMD and drivers; test multi-device/reconnect cases, distinguish endpoint IDs from room participant IDs |
+| AppleMIDI timed delivery | MIDIHub `docs/applemidi-backlog.md`, `docs/rtp-midi-backlog.md`, `network/rtpmidi/timing.c`: peer clock mapping and scheduled transport delivery exist | **Transport feature**, not application-visible provenance guarantee | Audit actual netmidid→driver→CAMD event metadata; T01/T03 |
+| Network MIDI 2.0 JR timing | MIDIHub `docs/network-midi2-backlog.md` NM09: JR-clock-based scheduled receive; native UMP at CAMD driver boundary remains limited | **Transport feature**, not end-to-end UMP guarantee | Capture event data at both sides of driver and synth; T01/T03 |
+| Audio-over-network / voice codec | AOO and Opus are candidates in this project's G1; no AROS-native working integration demonstrated by this audit | **Feasibility unverified**, not proof of platform impossibility | G1: audit upstream AOO/Opus dependency trees, licensing, compiler/threads/sockets; prototype before choosing |
+| Shared MIDI/audio clock correlation | MIDIHub `docs/telemidi-wan-performance-research.md` and `docs/realtime-fastforward-future-research.md` identify clock-domain questions; TeleMIDI `docs/TIMING_AND_LATENCY.md` defines required offset/drift/uncertainty | **Unverified cross-media contract** | TeleMIDI coordinator initially; platform timing enhancement only if a measured reusable gap appears |
+| Instrument asset/preset control | MIDIHub Preferences/synth docs describe startup SoundFont loading; TeleMIDI needs hash-based matching, renderer status and potentially live preset changes | **API maturity unverified** | MIDIHub synth for native lifecycle API; TeleMIDI for manifest, consent and fidelity reporting |
+| Peer/session telemetry | MIDIHub transports maintain session/loss state; a stable app-facing control/status API has not been established here | **API exposure unverified** | Transport owner; inspect netmidid public messages/driver interfaces before inventing controls |
+
+### Dependency-sensitive implementation order
+
+1. **G0:** compile a concrete API inventory from the target AROS revision: AHI recording and playback mode, CAMD 43 endpoint/driver UMP and timestamp paths, network peer status, synth lifecycle and DNS-SD. Record exact source commit, API signatures, target build and behavior.
+2. **G1 first experiment:** full-duplex local microphone capture and headphone playback with measured latency, using existing AHI APIs. Include a half-duplex device to verify clear error handling. Do **not** open an AHI implementation issue merely because the test has not been run.
+3. **G1 second experiment:** minimal AOO/Opus build and native voice loopback; if impractical, evaluate alternatives with the same latency/CPU criteria. No dependency adopted yet.
+4. **G2 MIDI experiment:** use existing AppleMIDI/Network MIDI 2.0 transport scheduling; measure send/arrival/due/CAMD/synth/audible times and distinguish what metadata is actually available to a CAMD client. A basic LAN MIDI demo may work without B32.
+5. **After evidence:** open narrow platform issues only for reproducible missing contracts (e.g., B32 for native driver UMP/timed receive). Avoid a new global musical clock, new MIDI stack, or forced CAMD ABI dependency for the first demo.
+
+### Acceptance traps
+
+- `AHIRecord` working alone does **not** prove simultaneous capture/playback, device compatibility or low-latency performance.
+- `AHIDB_FullDuplex` or a driver mode label does **not** prove the selected hardware performs well under load.
+- A network transport scheduling events does **not** prove original source timestamps reach a CAMD application or multitrack recorder.
+- CAMD 43 native UMP for published application endpoints does **not** establish native UMP delivery through every physical/network driver.
+- mDNS/DNS-SD discovery does **not** provide Internet rendezvous, admission security or NAT traversal.
+- AOO/Opus presence in reference material does **not** imply a working AROS port.
+
+**Status:** all new G0/G1 test obligations remain open. This audit changes the classification of audio capture from *possibly missing* to *present in source, duplex/performance unverified*.
