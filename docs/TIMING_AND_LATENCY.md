@@ -32,3 +32,31 @@ Reproducible harness, build information, target architecture, timestamp logs, ob
 
 ## Instrument assets and real-time isolation
 Soundbank discovery, hashing, authorization, download, verification and synth initialization must happen outside the real-time MIDI/audio callback path. Measure instrument-switch readiness separately from performance latency. Preserve note-off cleanup and avoid discontinuities on renderer changes.
+
+## Research-derived experiment directions (2026-11-18)
+
+Sources: [netpd OSC/TCP protocol](https://netpd.org/docs/protocol/), [AOO upstream](https://github.com/Spacechild1/aoo), [NINJAM](https://cockos.org/ninjam/), [Meshroom](https://github.com/janiluuk/meshroom), and [Telemidi TEMPO research](https://telemidi.com/tempo-protocol/). These motivate experiments; they do not establish AROS results or endorse proprietary protocol replication.
+
+### Separate performance modes instead of promising one universal latency
+
+- **Immediate interaction:** timestamp at capture, locally monitor without network loop, deliver remote events promptly subject to bounded jitter and note safety. Measure musician-to-musician *audible* delay.
+- **Musical-grid/latency-accepting interaction:** optional beat/bar-aligned scheduling for suitable loop- and pulse-based music. Measure missed deadlines, musical phase and responsiveness. This is not a transparent replacement for unconstrained live improvisation.
+- **Offline/audience reconstruction:** retain event-time provenance and compensate known offsets after capture to reconstruct a coherent playback timeline. This can improve recording alignment but **cannot retroactively fix what musicians heard during performance**.
+
+### Clock mapping contract to investigate
+
+For every MIDI event or audio frame retain source/participant ID, source-local monotonic capture timestamp, source clock domain/epoch, session sequence, mapped session timestamp **with uncertainty**, receiver arrival timestamp and actual scheduled/rendered timestamp where observable. Preserve raw original values; do not rewrite source timestamps to conceal jitter. Maintain offset/drift estimates and record resets, clock discontinuities and mapping confidence. Compare audio sample counters with host monotonic time through explicit mapping, not direct equality.
+
+### Experiment matrix
+
+| Experiment | What to vary | Measure / failure conditions |
+| --- | --- | --- |
+| T01 immediate MIDI | RTT, jitter, reorder, loss, simultaneous notes | Capture-to-remote-audible delay, p50/p95/p99, missed deadlines, stuck notes |
+| T02 beat/bar mode | BPM, subdivision, late events, clock drift | Quantization delay, beat-phase error, musical continuity, late-event policy |
+| T03 audio/MIDI correlation | AOO-like timestamped messages versus separate MIDI/audio transport | Drift, cross-media offset, rebuffer events; avoid assuming same clock |
+| T04 late join/reconnect | Session snapshot, concurrent program changes, missing note-off | State convergence, idempotent resync, note ownership and cleanup |
+| T05 recorded/audience timeline | Original vs arrival vs playback timestamps, asymmetric latency | Track alignment, event ordering, reproducible reconstruction |
+| T06 topology | P2P, forwarding relay, central audio mix; 2 and 4 peers | Per-user bandwidth, CPU, latency, jitter, monitor independence |
+| T07 local synth fidelity | Same/different banks, program changes, loading mid-note | Sound mismatch, readiness, render delay, callback blocking |
+
+**Design constraint:** use reliable ordered delivery where needed for room/configuration state, but evaluate time-critical MIDI delivery independently. netpd's OSC-over-TCP is a model for consistent state, not evidence that TCP is ideal for live note transport. AOO is an audio/timestamping candidate, not a replacement for native CAMD or MIDIHub transport. No performance threshold or technology is accepted until the corresponding experiment is reproducible on AROS.
