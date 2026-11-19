@@ -48,3 +48,18 @@ Do not mark a capability complete based solely on a design document or an upstre
 - **V15:** Non-redistributable bank or hardware/proprietary synth; do not copy asset, select source audio or explicit approximation.
 - **V16:** Instrument/preset changes and peer disconnect during transfer; preserve note lifecycle, free resources, no real-time callback stalls.
 - **V17:** Different synth engines/effects with same bank; report compatibility without claiming identical rendered audio.
+
+## Open collaboration implementation comparison (planned)
+
+The following scenarios complement V01–V17 and VM01–VM04; none is an executed AROS test. See [reference inventory](REFERENCES.md) and [timing experiments](TIMING_AND_LATENCY.md).
+
+| ID | Scenario | Expected evidence |
+| --- | --- | --- |
+| VC01 | Immediate remote MIDI with jitter/loss | Captured event/callback/remote-audio timestamps, p50/p95/p99 audible delay, note-on/off ownership and cleanup |
+| VC02 | Optional beat/bar-quantized session | BPM, phase error, missed-grid deadlines, added musical delay, explicit late-event policy |
+| VC03 | Reliable room/instrument state and late join | Snapshot/revision, participant identity, rejoin convergence and no duplicated/stuck notes |
+| VC04 | Hybrid MIDI/audio time mapping | Source clock epochs, offset/drift uncertainty, audio sample-frame mapping, recording alignment |
+| VC05 | Performer versus audience/recorded timeline | Original event time, arrival time, live render time and offline reconstruction; never conflate live improvement with postproduction |
+| VC06 | Direct versus relay versus server mix | Identical hardware/network load, per-user bandwidth, CPU, jitter, p95 audible delay and personal-mix independence |
+
+Evidence must name source projects as **comparators**, not implementations used, unless the actual code is integrated and tested. For example, netpd is a state synchronization comparator, NINJAM is a musical-delay comparator, AOO is an audio timestamp/transport candidate, and Fast MIDI Jam is archived source material.
